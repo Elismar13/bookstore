@@ -1,0 +1,6 @@
+CREATE TABLE publisher (
+    id INTEGER AUTO_INCREMENT NOT NULL PRIMARY KEY,
+    name VARCHAR(30) NOT NULL,
+    country VARCHAR(15) NOT NULL,
+    year_of_creation SMALLINT NOT NULL
+);
