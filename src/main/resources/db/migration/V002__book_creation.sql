@@ -4,8 +4,7 @@ CREATE TABLE book (
     description VARCHAR(100) NOT NULL,
     author VARCHAR(25) NOT NULL,
     pages INTEGER NOT NULL,
-    publisher INTEGER NOT NULL,
+    publisher_id INTEGER NOT NULL,
 
-    CONSTRAINT FKPublisher FOREIGN KEY (publisher)
-    REFERENCES publisher(sid)
+    FOREIGN KEY (publisher_id) REFERENCES publisher(id)
 );
