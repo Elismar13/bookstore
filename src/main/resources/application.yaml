@@ -9,6 +9,12 @@ spring:
       ddl-auto: update
   lifecycle:
     timeout-per-shutdown-phase: 30s
+  flyway:
+    url: jdbc:mysql://${DATABASE_SERVER_NAME:localhost}:3306/bookstore
+    user: ${DATABASE_USER_NAME:java}
+    password: ${DATABASE_USER_PASSWORD:1234}
+    baseline-on-migrate: true
+
 info:
   app:
     name: bookstore
