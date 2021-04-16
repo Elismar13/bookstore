@@ -5,13 +5,12 @@ import com.thushima.BookStore.entity.Publisher;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface PublisherMapper {
 
     PublisherMapper INSTANCE = Mappers.getMapper(PublisherMapper.class);
 
-    Publisher toModel(PublisherDTO publisherDTO);
+    Publisher toModel(PublisherDTO beerDTO);
 
-    PublisherDTO toDTO(Publisher publisher);
-
+    PublisherDTO toDTO(Publisher beer);
 }
