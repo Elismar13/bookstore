@@ -10,7 +10,7 @@ public interface BookMapper {
 
     BookMapper INSTANCE = Mappers.getMapper(BookMapper.class);
 
-    Book toModel(BookDTO beerDTO);
+    Book toModel(BookDTO bookDTO);
 
-    BookDTO toDTO(Book beer);
+    BookDTO toDTO(Book book);
 }
