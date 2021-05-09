@@ -3,6 +3,7 @@ package com.thushima.BookStore.service;
 import com.thushima.BookStore.dto.BookDTO;
 import com.thushima.BookStore.entity.Book;
 import com.thushima.BookStore.exception.BookAlreadyExistsException;
+import com.thushima.BookStore.exception.BookNotFoundException;
 import com.thushima.BookStore.mapper.BookMapper;
 import com.thushima.BookStore.repository.BookRepository;
 import lombok.AllArgsConstructor;
@@ -23,6 +24,14 @@ public class BookService {
         Book book = bookMapper.toModel(bookDTO);
         Book savedBook = bookRepository.save(book);
         return bookMapper.toDTO(savedBook);
+    }
+
+    public BookDTO findByName(String title) throws BookNotFoundException {
+        Optional<Book> optSavedBook = bookRepository.findByTitle(title);
+        if(optSavedBook.isPresent()) {
+            return bookMapper.toDTO(optSavedBook.get());
+        }
+        throw new BookNotFoundException(title);
     }
 
     private void verifyIfIsAlreadyRegistered(String title) throws BookAlreadyExistsException {
