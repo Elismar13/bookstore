@@ -29,6 +29,6 @@ public class Book {
     private Long pages;
 
     @Column(nullable = false)
-    private String publisher;
+    private Integer publisher_id;
 
 }
