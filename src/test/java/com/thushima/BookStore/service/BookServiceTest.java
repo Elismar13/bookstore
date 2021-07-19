@@ -8,9 +8,11 @@ import com.thushima.BookStore.mapper.BookMapper;
 import com.thushima.BookStore.repository.BookRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Optional;
 
@@ -18,6 +20,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @ExtendWith(MockitoExtension.class)
 public class BookServiceTest {
@@ -53,4 +56,16 @@ public class BookServiceTest {
         assertThat(createdBookDTO.getPublisher_id(), is(equalTo(expectedBookDTO.getPublisher_id())));
     }
 
+    @Test
+    void whenAlreadyRegisteredBookInformedThenAnExceptionShouldBeThrown() {
+        // given
+        BookDTO expectedBookDTO = BookDTOBuilder.builder().build().toBookDTO();
+        Book duplicatedBook = bookMapper.toModel(expectedBookDTO);
+
+        // when
+        when(bookRepository.findByTitle(expectedBookDTO.getTitle())).thenReturn(Optional.of(duplicatedBook));
+
+        // then
+        assertThrows(BookAlreadyExistsException.class, () -> bookService.createBook(expectedBookDTO));
+    }
 }
