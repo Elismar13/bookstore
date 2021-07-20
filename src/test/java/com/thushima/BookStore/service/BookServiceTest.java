@@ -4,6 +4,7 @@ import com.thushima.BookStore.builder.BookDTOBuilder;
 import com.thushima.BookStore.dto.BookDTO;
 import com.thushima.BookStore.entity.Book;
 import com.thushima.BookStore.exception.BookAlreadyExistsException;
+import com.thushima.BookStore.exception.BookNotFoundException;
 import com.thushima.BookStore.mapper.BookMapper;
 import com.thushima.BookStore.repository.BookRepository;
 import org.junit.jupiter.api.Test;
@@ -67,5 +68,20 @@ public class BookServiceTest {
 
         // then
         assertThrows(BookAlreadyExistsException.class, () -> bookService.createBook(expectedBookDTO));
+    }
+
+    @Test
+    void whenValidBookNameIsGivenThenReturnABook() throws BookNotFoundException {
+        // given
+        BookDTO expectedBookDTO = BookDTOBuilder.builder().build().toBookDTO();
+        Book expectedFoundBook = bookMapper.toModel(expectedBookDTO);
+
+        // when
+        when(bookRepository.findByTitle(expectedFoundBook.getTitle())).thenReturn(Optional.of(expectedFoundBook));
+
+        // then
+        BookDTO foundBookDTO = bookService.findByTitle(expectedBookDTO.getTitle());
+
+        assertThat(expectedBookDTO, is(equalTo(foundBookDTO)));
     }
 }
